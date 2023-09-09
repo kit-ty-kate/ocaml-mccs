@@ -6,6 +6,6 @@
 (rule
   (with-stdout-to test.glpk.reference (cat %{dep:test.output})))
 
-(alias
- (name runtest)
+(rule
+ (alias runtest)
  (action (system "diff %{dep:test-glpk.result} %{dep:test.glpk.reference}")))

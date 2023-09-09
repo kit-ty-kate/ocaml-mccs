@@ -2,7 +2,9 @@
  (name mccs_glpk)
  (public_name mccs.glpk.internal)
  (modules ocaml_mccs_glpk)
- (c_names ; Core GLPK
+ (foreign_stubs
+  (language c)
+  (names ; Core GLPK
   ; draft
   bfd
   glpapi06
@@ -95,9 +97,9 @@
   spychuzc
   spychuzr
   spydual)
- (c_flags
-  :standard
-  (:include cflags.sexp))
+  (flags
+   :standard
+   (:include cflags.sexp)))
  (wrapped false))
 
 (copy_files# api/*.{c,h})
