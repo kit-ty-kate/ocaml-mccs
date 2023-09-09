@@ -27,6 +27,7 @@ let cxxflags =
     (if (Sys.win32 && Config.ccomp_type = "msvc")
      then ["\"/EHsc\""]
      else ["-Wall -Wextra -Wno-unused-parameter"]) @
+    (ifc (Config.system = "macosx") ["-x"; "c++"]) @
     (ifc useGLPK ["-DUSEGLPK"]) @
     (ifc useCOIN ["-DUSECOIN"]) @
     (ifc useCLP  ["-DUSECLP"]) @
@@ -35,15 +36,23 @@ let cxxflags =
   in
   "(" ^ String.concat " " flags ^ ")"
 
-let flags =
+let clibs =
   let flags =
-    ["-lstdc++"] @
+    (ifc (Config.ccomp_type = "cc") ["-lstdc++"]) @
+    (ifc (Config.system = "cygwin") ["-lgcc_s"]) @
     (ifc useCOIN ["-lCoinUtils"]) @
     (ifc useCLP  ["-lOsiClp"]) @
     (ifc useCBC  ["-lOsiCbc";"-lCbc"]) @
     (ifc useSYM  ["-lgomp";"-lOsiSym"])
   in
-  let flags = List.map (fun fl -> "(-cclib \"" ^ fl ^ "\")") flags in
+  "(" ^ String.concat " " flags ^ ")"
+
+let flags =
+  let cflags =
+(*    (ifc (Config.system = "mingw") ["-link -shared-libgcc"]) *)
+    []
+  in
+  let flags = List.map (fun fl -> "(-ccopt \"" ^ fl ^ "\")") cflags in
   "(" ^ String.concat " " flags ^ ")"
 
 let write f s =
@@ -53,4 +62,5 @@ let write f s =
 
 let () =
   write "cxxflags.sexp" cxxflags;
+  write "clibs.sexp" clibs;
   write "flags.sexp" flags
