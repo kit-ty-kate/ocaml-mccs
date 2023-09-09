@@ -37,6 +37,7 @@ let cxxflags =
 
 let flags =
   let flags =
+    ["-lstdc++"]
     (ifc useCOIN ["-lCoinUtils"]) @
     (ifc useCLP  ["-lOsiClp"]) @
     (ifc useCBC  ["-lOsiCbc";"-lCbc"]) @

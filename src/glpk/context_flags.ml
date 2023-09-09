@@ -16,7 +16,7 @@ match Sys.argv.(1) with
         else
           "-lglpk"
       in
-      Printf.printf "(-lstdc++ %s)" glpk
+      Printf.printf "(%s)" glpk
 | "cflags" ->
     if Config.ccomp_type = "cc" then
       print_string "(-Wno-parentheses -Wno-stringop-overflow)"
