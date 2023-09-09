@@ -43,7 +43,7 @@ let flags =
     (ifc useCBC  ["-lOsiCbc";"-lCbc"]) @
     (ifc useSYM  ["-lgomp";"-lOsiSym"])
   in
-  let flags = List.map (fun fl -> "(-cclib \"" ^ fl ^ "\")") cflags in
+  let flags = List.map (fun fl -> "(-cclib \"" ^ fl ^ "\")") flags in
   "(" ^ String.concat " " flags ^ ")"
 
 let write f s =
